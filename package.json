@@ -1,0 +1,46 @@
+{
+    "name": "pre-ui",
+    "version": "0.1.0",
+    "description": "Extendable UI component library using Vue.js and Tailwind CSS.",
+    "author": "Philippe Tellier <dev@philippetellier.com>",
+    "license": "MIT",
+    "repository": "https://github.com/philippe-tellier/pre-ui.git",
+    "bugs": "https://github.com/philippe-tellier/pre-ui/issues",
+    "homepage": "https://github.com/philippe-tellier/pre-ui",
+    "main": "dist/pre-ui.umd.js",
+    "module": "dist/pre-ui.esm.js",
+    "unpkg": "dist/pre-ui.min.js",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build --target lib --name pre-ui ./src/index.js",
+        "lint": "vue-cli-service lint",
+        "publish": "npm run build && npm publish --access public"
+    },
+    "files": [
+        "dist/*",
+        "*.json",
+        "*.js",
+        "*.md"
+    ],
+    "peerDependencies": {
+        "tailwindcss": "^1.2",
+        "vue": "^2.6"
+    },
+    "dependencies": {
+        "vue-the-mask": "^0.11.1"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "~4.4.0",
+        "@vue/cli-plugin-eslint": "~4.4.0",
+        "@vue/cli-service": "~4.4.0",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.5.0",
+        "eslint-config-airbnb-base": "^14.2.0",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-vue": "^6.2.2",
+        "tailwindcss": "^1.5.2",
+        "vue": "^2.6.11",
+        "core-js": "^3.6.5",
+        "vue-template-compiler": "^2.6.11"
+    }
+}
