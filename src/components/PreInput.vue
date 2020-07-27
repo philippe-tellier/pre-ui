@@ -22,7 +22,6 @@
         />
         <div
             class="absolute right-0 flex justify-center"
-            :class="{ 'disabled': disabled }"
             @click="focus"
             v-if="$slots.after"
         >

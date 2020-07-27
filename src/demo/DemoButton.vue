@@ -2,7 +2,8 @@
     <span class="inline-flex rounded shadow-sm">
         <pre-button
             v-bind="$attrs"
-            :class-name="[
+            :class="[
+                className,
                 colorClasses,
                 'border px-4 py-2 text-sm leading-5 rounded',
                 'transition ease-in-out duration-150',
@@ -48,7 +49,7 @@
                 type: String,
                 default: 'white',
             },
-            icon: {
+            className: {
                 type: String,
                 default: '',
             },
