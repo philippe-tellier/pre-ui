@@ -23,7 +23,7 @@
 
 <script>
     export default {
-        name: 'PreButton',
+        name: 'Button',
 
         props: {
             loading: {
@@ -33,10 +33,6 @@
             disabled: {
                 type: Boolean,
                 default: false,
-            },
-            color: {
-                type: String,
-                default: 'white',
             },
             tag: {
                 type: String,
@@ -49,10 +45,6 @@
             type: {
                 type: String,
                 default: 'button',
-            },
-            icon: {
-                type: String,
-                default: '',
             },
             className: {
                 type: [String, Array],

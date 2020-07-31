@@ -14,6 +14,8 @@
     import { French } from 'flatpickr/dist/l10n/fr.js';
 
     export default {
+        name: 'PreDatetimepicker',
+
         props: {
             value: {
                 type: null,
@@ -68,11 +70,33 @@
                 type: Boolean,
                 default: false,
             },
+            minuteIncrement: {
+                type: Number,
+                default: 15,
+            },
+            showMonths: {
+                type: Number,
+                default: 1,
+            },
+            disableDates: {
+                type: Array,
+                default: () => [],
+            },
         },
 
         data: () => ({
             flatpickr: null,
         }),
+
+        computed: {
+            disable() {
+                if (this.disabled) {
+                    return [() => { return true }];
+                }
+
+                return this.disableDates;
+            },
+        },
 
         watch: {
             value(newValue) {
@@ -94,12 +118,15 @@
                     altFormat: this.displayDateFormat,
                     altInput: true,
                     dateFormat: this.dateFormat,
+                    disable: this.disable,
                     enableSeconds: this.enableSeconds,
                     enableTime: this.enableTime,
                     inline: this.inline,
+                    minuteIncrement: this.minuteIncrement,
                     noCalendar: this.noCalendar,
                     onChange: this.onChange,
                     onClose: this.onChange,
+                    showMonths: this.showMonths,
                     time_24hr: !this.twelveHourTime,
                     locale: {
                         ...this.locale === 'fr' ? French : {},

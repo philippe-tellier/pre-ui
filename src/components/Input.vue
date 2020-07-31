@@ -22,6 +22,7 @@
         />
         <div
             class="absolute right-0 flex justify-center"
+            :class="{ 'disabled': disabled }"
             @click="focus"
             v-if="$slots.after"
         >
@@ -32,6 +33,7 @@
 
 <script>
     import { TheMask, tokens } from 'vue-the-mask';
+    import { insertAtCaret } from '../utils.js';
 
     export default {
         name: 'PreInput',
@@ -55,7 +57,7 @@
                 validator: value => typeof value === 'string' || value === null,
             },
             className: {
-                type: [String, Array, Object],
+                type: null,
                 default: '',
             },
             mask: {
@@ -110,6 +112,12 @@
                 await this.$nextTick();
 
                 this.$refs.input.focus();
+            },
+
+            async insertAtCaret(text) {
+                await this.$nextTick();
+
+                insertAtCaret(this.$refs.input, text);
             },
 
             onFocus() {

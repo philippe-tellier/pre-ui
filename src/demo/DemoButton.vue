@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import PreButton from '../components/PreButton.vue';
+    import { PreButton } from '../index.js';
     import DemoSpinner from './DemoSpinner.vue';
 
     export default {

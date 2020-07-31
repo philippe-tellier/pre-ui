@@ -1,17 +1,17 @@
 <template>
     <pre-input
         v-bind="$attrs"
-        :class-name="customClassName"
+        :class-name="inputClassName"
         ref="input"
         v-on="$listeners"
     >
         <template #before>
-            <div class="ml-3" v-if="$slots.before">
+            <div class="flex items-center pl-3" v-if="$slots.before">
                 <slot name="before" />
             </div>
         </template>
         <template #after>
-            <div class="mr-3" v-if="$slots.after">
+            <div class="flex items-center pr-3" v-if="$slots.after">
                 <slot name="after" />
             </div>
         </template>
@@ -19,31 +19,24 @@
 </template>
 
 <script>
-    import PreInput from '../components/PreInput.vue';
+    import PreInput from '../components/Input.vue';
 
     export default {
-        components: {
-            PreInput,
-        },
+        components: { PreInput },
 
         props: {
             className: {
-                type: [String, Array, Object],
+                type: null,
                 default: '',
             },
         },
 
         computed: {
-            customClassName() {
-                const classNames = Array.isArray(this.className) ? this.className : [this.className];
-
+            inputClassName() {
                 return [
-                    ...classNames,
+                    this.className,
                     'form-input',
-                    {
-                        'pl-8': this.$slots.before,
-                        'pr-8': this.$slots.after,
-                    },
+                    { 'pl-8': this.$slots.before, 'pr-8': this.$slots.after },
                 ];
             },
         },
@@ -51,6 +44,10 @@
         methods: {
             focus() {
                 this.$refs.input.focus();
+            },
+
+            insertAtCaret(text) {
+                this.$refs.input.insertAtCaret(text);
             },
         },
     };

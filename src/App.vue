@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div>
-                    <demo-datetimepicker />
+                    <demo-datetimepicker :disabled="true" :inline="true" />
                     <div class="text-xs text-gray-600 mt-1">
                         Date and time
                     </div>
