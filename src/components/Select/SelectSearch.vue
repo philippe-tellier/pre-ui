@@ -12,10 +12,11 @@
 
 <script>
     export default {
-        props: {
-            loading: {
-                type: Boolean,
-                default: false,
+        inject: ['_search'],
+
+        computed: {
+            loading() {
+                return this._search().loading;
             },
         },
     };
