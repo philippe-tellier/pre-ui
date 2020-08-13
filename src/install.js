@@ -16,29 +16,27 @@ export default {
                 return event;
             },
 
-            show({ type = 'info', title = '', message }) {
+            show(options) {
                 event.$emit('show', {
                     ...defaults,
-                    type,
-                    title,
-                    message,
+                    ...options,
                 });
             },
 
-            info(message, title) {
-                this.show({ type: 'info', title, message });
+            info(message, options) {
+                this.show({ ...options, message, type: 'info' });
             },
 
-            success(message, title) {
-                this.show({ type: 'success', title, message });
+            success(message, options) {
+                this.show({ ...options, message, type: 'success' });
             },
 
-            warning(message, title) {
-                this.show({ type: 'warning', title, message });
+            warning(message, options) {
+                this.show({ ...options, message, type: 'warning' });
             },
 
-            error(message, title) {
-                this.show({ type: 'error', title, message });
+            error(message, options) {
+                this.show({ ...options, message, type: 'error' });
             },
         };
 

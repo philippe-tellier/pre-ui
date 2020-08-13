@@ -1,5 +1,5 @@
 <template>
-    <listbox-list class="overflow-auto">
+    <listbox-list class="overflow-auto focus:outline-none">
         <template v-for="(group, index) in context.groupedOptions">
             <slot
                 :index="index"
