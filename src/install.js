@@ -1,24 +1,32 @@
 export default {
-    install(Vue) {
+    install(Vue, { notifications = {} } = {}) {
         if (this.installed) {
             return;
         }
 
         this.installed = true;
 
-        const event = new Vue();
         const defaults = {
-            type: 'info',
-            timeout: 5000,
+            notifications: {
+                type: 'info',
+                timeout: 5000,
+                placement: 'top-right',
+                ...notifications,
+            },
         };
+
         const notify = {
             get event() {
-                return event;
+                if (!this._event) {
+                    this._event = new Vue();
+                }
+
+                return this._event;
             },
 
             show(options) {
-                event.$emit('show', {
-                    ...defaults,
+                this.event.$emit('show', {
+                    ...defaults.notifications,
                     ...options,
                 });
             },
