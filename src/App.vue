@@ -1,5 +1,8 @@
 <template>
-    <div id="app" class="p-8 space-y-8 h-screen">
+    <div id="app" class="relative m-8 space-y-8 min-h-screen">
+        <demo-button class="absolute right-0" @click="swapLocale">
+            Swap to {{ invertedLocale.toUpperCase() }}
+        </demo-button>
         <div class="space-y-3">
             <h1 class="text-xl">
                 Buttons
@@ -120,6 +123,18 @@
                         With icon after
                     </div>
                 </div>
+                <div>
+                    <demo-input :locale="locale" mask="phone" value="" />
+                    <div class="text-xs text-gray-600 mt-1">
+                        With phone mask
+                    </div>
+                </div>
+                <div>
+                    <demo-input :locale="locale" mask="money" value="" />
+                    <div class="text-xs text-gray-600 mt-1">
+                        With money mask
+                    </div>
+                </div>
             </div>
         </div>
         <div class="space-y-3">
@@ -166,6 +181,22 @@
             DemoDatepicker,
             DemoDatetimepicker,
             DemoTimepicker,
+        },
+
+        data: () => ({
+            locale: 'en',
+        }),
+
+        computed: {
+            invertedLocale() {
+                return this.locale == 'en' ? 'fr' : 'en';
+            },
+        },
+
+        methods: {
+            swapLocale() {
+                this.locale = this.invertedLocale;
+            },
         },
     };
 </script>

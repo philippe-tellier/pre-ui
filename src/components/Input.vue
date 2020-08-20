@@ -10,7 +10,7 @@
         </div>
         <component
             :is="inputTag"
-            v-bind="$attrs"
+            v-bind="{ ...$attrs, ...money }"
             :class="[className, { 'focus': isFocused }]"
             :disabled="disabled"
             :mask="maskPattern"
@@ -32,14 +32,16 @@
 </template>
 
 <script>
-    import { TheMask, tokens } from 'vue-the-mask';
+    import { TheMask as MaskInput, tokens } from 'vue-the-mask';
+    import { Money as MoneyInput } from 'v-money';
     import { insertAtCaret } from '../utils.js';
 
     export default {
         name: 'PreInput',
 
         components: {
-            TheMask,
+            MaskInput,
+            MoneyInput,
         },
 
         props: {
@@ -54,7 +56,7 @@
             value: {
                 default: '',
                 required: true,
-                validator: value => typeof value === 'string' || value === null,
+                validator: value => typeof value === 'string' || typeof value === 'number' || value === null,
             },
             className: {
                 type: null,
@@ -63,6 +65,11 @@
             mask: {
                 type: String,
                 default: '',
+            },
+            locale: {
+                type: String,
+                default: 'en',
+                validator: value => ['en', 'fr'].includes(value),
             },
         },
 
@@ -73,8 +80,12 @@
         },
 
         computed: {
+            isMasked() {
+                return !!this.mask && this.mask != 'money';
+            },
+
             maskTokens() {
-                if (!this.mask) {
+                if (!this.isMasked) {
                     return '';
                 }
 
@@ -85,6 +96,10 @@
             },
 
             maskPattern() {
+                if (!this.isMasked) {
+                    return '';
+                }
+
                 switch (this.mask) {
                     case 'phone':
                         return 'P## ###-####';
@@ -94,7 +109,12 @@
             },
 
             inputTag() {
-                return this.mask ? 'the-mask' : 'input';
+                if (this.mask == 'money') {
+                    return 'money-input';
+                } if (this.mask) {
+                    return 'mask-input';
+                }
+                return 'input';
             },
 
             inputListeners() {
@@ -103,6 +123,28 @@
                     blur: this.onBlur,
                     focus: this.onFocus,
                     input: this.onInput,
+                };
+            },
+
+            money() {
+                if (this.locale === 'fr') {
+                    return {
+                        decimal: ',',
+                        thousands: ' ',
+                        prefix: '',
+                        suffix: ' $',
+                        precision: 2,
+                        masked: false,
+                    };
+                }
+
+                return {
+                    decimal: '.',
+                    thousands: ',',
+                    prefix: '$',
+                    suffix: '',
+                    precision: 2,
+                    masked: false,
                 };
             },
         },

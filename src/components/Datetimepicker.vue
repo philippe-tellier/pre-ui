@@ -89,7 +89,7 @@
         }),
 
         computed: {
-            disable() {
+            disableConfig() {
                 if (this.disabled) {
                     return [() => { return true }];
                 }
@@ -104,21 +104,23 @@
                     this.flatpickr.setDate(newValue);
                 }
             },
-        },
 
-        methods: {
-            onChange() {
-                this.$emit('input', this.$refs.input.value);
+            locale() {
+                this.destroy();
+                this.init();
             },
         },
 
-        mounted() {
-            this.$nextTick(() => {
+        methods: {
+            async init() {
+                await this.$nextTick();
+
                 this.flatpickr = flatpickr(this.$refs.input, {
                     altFormat: this.displayDateFormat,
                     altInput: true,
                     dateFormat: this.dateFormat,
-                    disable: this.disable,
+                    defaultDate: this.value,
+                    disable: this.disableConfig,
                     enableSeconds: this.enableSeconds,
                     enableTime: this.enableTime,
                     inline: this.inline,
@@ -133,11 +135,26 @@
                         firstDayOfWeek: this.firstDayOfWeek,
                     },
                 });
-            });
+            },
+
+            destroy() {
+                if (this.flatpickr) {
+                    this.flatpickr.destroy();
+                    this.flatpickr = null;
+                }
+            },
+
+            onChange() {
+                this.$emit('input', this.$refs.input.value);
+            },
+        },
+
+        mounted() {
+            this.init();
         },
 
         beforeDestroy() {
-            this.flatpickr.destroy();
+            this.destroy();
         },
     };
 </script>
