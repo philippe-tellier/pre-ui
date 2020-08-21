@@ -46,21 +46,17 @@
         },
 
         methods: {
-            add(props) {
-                if (props.placement !== this.placement) {
+            add(notification) {
+                if (notification.placement !== this.placement) {
                     return;
                 }
 
-                // The "setTimeout" ensures uniqueness of the id.
-                setTimeout(() => {
-                    const notification = { ...props, id: Date.now() };
-
-                    this.notifications.push(notification);
-                    this.deferHide(notification);
-                }, 1);
+                this.notifications.push(notification);
+                this.deferHide(notification);
             },
 
-            remove({ id }) {
+            remove(notification) {
+                const id = typeof notification === 'object' ? notification.id : notification;
                 const index = this.notifications.findIndex(notification => {
                     return notification.id === id;
                 });
@@ -83,6 +79,12 @@
 
         mounted() {
             this.$notify.event.$on('show', this.add);
+            this.$notify.event.$on('hide', this.remove);
+        },
+
+        beforeDestroy() {
+            this.$notify.event.$off('show', this.add);
+            this.$notify.event.$off('hide', this.remove);
         },
     };
 </script>

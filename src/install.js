@@ -1,3 +1,5 @@
+import { randomString } from './utils.js';
+
 export default {
     install(Vue, { notifications = {} } = {}) {
         if (this.installed) {
@@ -25,26 +27,35 @@ export default {
             },
 
             show(options) {
-                this.event.$emit('show', {
+                const self = this;
+                const notification = {
                     ...defaults.notifications,
                     ...options,
-                });
+                    id: randomString(),
+                    hide() {
+                        self.event.$emit('hide', this.id);
+                    },
+                };
+
+                this.event.$emit('show', notification);
+
+                return notification;
             },
 
             info(message, options) {
-                this.show({ ...options, message, type: 'info' });
+                return this.show({ ...options, message, type: 'info' });
             },
 
             success(message, options) {
-                this.show({ ...options, message, type: 'success' });
+                return this.show({ ...options, message, type: 'success' });
             },
 
             warning(message, options) {
-                this.show({ ...options, message, type: 'warning' });
+                return this.show({ ...options, message, type: 'warning' });
             },
 
             error(message, options) {
-                this.show({ ...options, message, type: 'error' });
+                return this.show({ ...options, message, type: 'error' });
             },
         };
 
