@@ -8,6 +8,6 @@
     import { ListboxGroupLabel } from './Listbox.js';
 
     export default {
-        component: { ListboxGroupLabel },
+        components: { ListboxGroupLabel },
     };
 </script>

@@ -1,23 +1,24 @@
 <template>
     <listbox-list class="overflow-auto focus:outline-none">
-        <template v-for="(group, index) in context.groupedOptions">
+        <template v-for="(group, groupIndex) in context.groupedOptions">
             <slot
-                :index="index"
+                :index="groupIndex"
                 :label="group.label"
                 name="group-label"
                 v-if="group.label"
             />
             <listbox-option
                 :disabled="option.disabled"
+                :position="optionIndex"
                 :value="option.value"
                 :key="option.value"
                 v-slot="{ isActive, isSelected }"
-                v-for="option in group.options"
+                v-for="(option, optionIndex) in group.options"
             >
                 <slot
                     :active="isActive"
-                    :label="option.label"
                     name="option"
+                    :option="option"
                     :selected="isSelected"
                 >
                     {{ option.label }}

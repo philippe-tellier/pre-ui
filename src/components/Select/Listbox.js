@@ -198,23 +198,32 @@ export const ListboxOption = {
     data: () => ({
         id: generateId(),
     }),
-    props: ['value'],
+    props: ['value', 'disabled', 'position'],
     watch: {
         value(newValue, oldValue) {
             this.context.unregisterOption(oldValue);
+            this.register();
+        },
+        disabled() {
+            this.register();
+        },
+        position() {
+            this.register();
+        },
+    },
+    methods: {
+        register() {
             this.context.registerOption({
-                value: newValue,
+                disabled: this.disabled,
+                value: this.value,
                 id: this.id,
                 ref: this.$el,
+                position: this.position || -1,
             });
         },
     },
     mounted() {
-        this.context.registerOption({
-            value: this.value,
-            id: this.id,
-            ref: this.$el,
-        });
+        this.register();
     },
     beforeDestroy() {
         this.context.unregisterOption(this.value);
@@ -268,7 +277,6 @@ export const Listbox = {
         listboxSearchInputRef: { value: null },
         isOpen: { value: false },
         activeItem: { value: vm.value },
-        values: { value: null },
         labelId: { value: null },
         buttonId: { value: null },
         options: { value: [] },
@@ -281,7 +289,6 @@ export const Listbox = {
                 listboxSearchInputRef: this.listboxSearchInputRef,
                 isOpen: this.isOpen,
                 activeItem: this.activeItem,
-                values: this.values,
                 labelId: this.labelId,
                 buttonId: this.buttonId,
                 props: this.$props,
@@ -299,11 +306,6 @@ export const Listbox = {
             },
         };
     },
-    watch: {
-        'options.value'() {
-            this.values.value = this.options.value.map(option => option.value);
-        },
-    },
     methods: {
         getActiveOption() {
             return this.options.value.find(option => {
@@ -311,13 +313,20 @@ export const Listbox = {
             }) || { value: null, id: null, ref: null };
         },
         registerOption(option) {
-            this.unregisterOption(option.value);
-            this.options.value = [...this.options.value, option];
+            if (option.position > -1) {
+                this.options.value.splice(option.position, 1, option);
+            } else {
+                this.unregisterOption(option.value);
+                this.options.value.push(option);
+            }
         },
         unregisterOption(value) {
             this.options.value = this.options.value.filter(option => {
                 return option.value !== value;
             });
+        },
+        getOption(value) {
+            return this.options.value.find(option => option.value === value);
         },
         toggle() {
             this.isOpen.value ? this.close() : this.open();
@@ -341,23 +350,29 @@ export const Listbox = {
             this.select(this.activeItem.value || this.value);
         },
         select(value) {
+            const isDisabled = this.getOption(value).disabled && this.value !== value;
+
+            if (isDisabled) {
+                return;
+            }
+
             this.$emit('input', value);
             this.$nextTick(() => {
                 this.close();
             });
         },
         getFocusedIndex() {
-            return this.values.value.indexOf(this.activeItem.value);
+            return this.options.value.findIndex(option => option.value === this.activeItem.value);
         },
         focusPreviousItem() {
             const focusedIndex = this.getFocusedIndex();
-            const indexToFocus = focusedIndex - 1 < 0 ? this.values.value.length - 1 : focusedIndex - 1;
-            this.focusItem(this.values.value[indexToFocus]);
+            const indexToFocus = focusedIndex - 1 < 0 ? this.options.value.length - 1 : focusedIndex - 1;
+            this.focusItem(this.options.value[indexToFocus].value);
         },
         focusNextItem() {
             const focusedIndex = this.getFocusedIndex();
-            const indexToFocus = focusedIndex + 1 > this.values.value.length - 1 ? 0 : focusedIndex + 1;
-            this.focusItem(this.values.value[indexToFocus]);
+            const indexToFocus = focusedIndex + 1 > this.options.value.length - 1 ? 0 : focusedIndex + 1;
+            this.focusItem(this.options.value[indexToFocus].value);
         },
         focusItem(value) {
             this.activeItem.value = value;

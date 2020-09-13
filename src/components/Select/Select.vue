@@ -9,7 +9,7 @@
         <slot
             name="trigger"
             :opened="isOpen"
-            :value="selectedOption.label"
+            :selected-option="selectedOption"
         />
         <slot
             name="dropdown"
