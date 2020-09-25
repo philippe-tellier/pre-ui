@@ -153,7 +153,11 @@
             async focus() {
                 await this.$nextTick();
 
-                this.$refs.input.focus();
+                if (typeof this.$refs.input.focus !== 'undefined') {
+                    this.$refs.input.focus();
+                } else {
+                    this.$refs.input.$el.focus();
+                }
             },
 
             async insertAtCaret(text) {
