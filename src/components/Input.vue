@@ -34,7 +34,7 @@
 <script>
     import { TheMask as MaskInput, tokens } from 'vue-the-mask';
     import { Money as MoneyInput } from 'v-money';
-    import { insertAtCaret } from '../utils.js';
+    import insertAtCaret from 'insert-text-at-cursor';
 
     export default {
         name: 'PreInput',
