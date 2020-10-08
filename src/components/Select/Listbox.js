@@ -218,7 +218,7 @@ export const ListboxOption = {
                 value: this.value,
                 id: this.id,
                 ref: this.$el,
-                position: this.position || -1,
+                position: this.position,
             });
         },
     },
@@ -306,6 +306,11 @@ export const Listbox = {
             },
         };
     },
+    computed: {
+        sortedOptions() {
+            return [...this.options.value].sort((a, b) => a.position - b.position);
+        },
+    },
     methods: {
         getActiveOption() {
             return this.options.value.find(option => {
@@ -313,12 +318,8 @@ export const Listbox = {
             }) || { value: null, id: null, ref: null };
         },
         registerOption(option) {
-            if (option.position > -1) {
-                this.options.value.splice(option.position, 1, option);
-            } else {
-                this.unregisterOption(option.value);
-                this.options.value.push(option);
-            }
+            this.unregisterOption(option.value);
+            this.options.value.push(option);
         },
         unregisterOption(value) {
             this.options.value = this.options.value.filter(option => {
@@ -362,17 +363,17 @@ export const Listbox = {
             });
         },
         getFocusedIndex() {
-            return this.options.value.findIndex(option => option.value === this.activeItem.value);
+            return this.sortedOptions.findIndex(option => option.value === this.activeItem.value);
         },
         focusPreviousItem() {
             const focusedIndex = this.getFocusedIndex();
-            const indexToFocus = focusedIndex - 1 < 0 ? this.options.value.length - 1 : focusedIndex - 1;
-            this.focusItem(this.options.value[indexToFocus].value);
+            const indexToFocus = focusedIndex - 1 < 0 ? this.sortedOptions.length - 1 : focusedIndex - 1;
+            this.focusItem(this.sortedOptions[indexToFocus].value);
         },
         focusNextItem() {
             const focusedIndex = this.getFocusedIndex();
-            const indexToFocus = focusedIndex + 1 > this.options.value.length - 1 ? 0 : focusedIndex + 1;
-            this.focusItem(this.options.value[indexToFocus].value);
+            const indexToFocus = focusedIndex + 1 > this.sortedOptions.length - 1 ? 0 : focusedIndex + 1;
+            this.focusItem(this.sortedOptions[indexToFocus].value);
         },
         focusItem(value) {
             this.activeItem.value = value;

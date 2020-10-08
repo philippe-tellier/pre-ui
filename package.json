@@ -1,6 +1,6 @@
 {
     "name": "pre-ui",
-    "version": "0.1.16",
+    "version": "0.1.17",
     "description": "Extendable UI component library using Vue.js and Tailwind CSS.",
     "author": "Philippe Tellier <dev@philippetellier.com>",
     "license": "MIT",
