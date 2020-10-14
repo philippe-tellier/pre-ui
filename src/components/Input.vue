@@ -8,10 +8,20 @@
         >
             <slot name="before" />
         </div>
+        <input
+            v-bind="$attrs"
+            :class="inputClassName"
+            :disabled="disabled"
+            :type="type"
+            :value="value"
+            ref="input"
+            v-on="inputListeners"
+            v-if="inputTag === 'input'"
+        >
         <component
             :is="inputTag"
             v-bind="{ ...$attrs, ...money }"
-            :class="[className, { 'focus': isFocused }]"
+            :class="inputClassName"
             :disabled="disabled"
             :mask="maskPattern"
             :tokens="maskTokens"
@@ -19,6 +29,7 @@
             :value="value"
             ref="input"
             v-on="inputListeners"
+            v-else
         />
         <div
             class="absolute right-0 flex justify-center"
@@ -54,8 +65,8 @@
                 default: 'text',
             },
             value: {
+                type: null,
                 default: '',
-                required: true,
                 validator: value => typeof value === 'string' || typeof value === 'number' || value === null,
             },
             className: {
@@ -80,6 +91,13 @@
         },
 
         computed: {
+            inputClassName() {
+                return [
+                    this.className,
+                    { focus: this.isFocused },
+                ];
+            },
+
             isMasked() {
                 return !!this.mask && this.mask != 'money';
             },
@@ -114,6 +132,7 @@
                 } if (this.mask) {
                     return 'mask-input';
                 }
+
                 return 'input';
             },
 
