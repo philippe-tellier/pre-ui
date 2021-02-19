@@ -1,6 +1,8 @@
+// Import vue components
 import { randomString } from './utils.js';
 
-export default {
+// Install function executed by Vue.use()
+const install = {
     install(Vue, { notifications = {} } = {}) {
         if (this.installed) {
             return;
@@ -63,3 +65,10 @@ export default {
         Vue.notify = notify;
     },
 };
+
+// Create module definition for Vue.use()
+export default install;
+
+// To allow individual component use, export components
+// each can be registered via Vue.component()
+export * from '@/components/index';
