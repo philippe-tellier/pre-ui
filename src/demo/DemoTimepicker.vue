@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import PreDatetimepicker from '../components/Datetimepicker.vue';
+    import PreDatetimepicker from '../components/PreDatetimepicker.vue';
 
     export default {
         components: {

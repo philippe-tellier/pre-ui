@@ -19,32 +19,35 @@
         "src/index.js",
         "src/install.js",
         "src/utils.js",
+        "tailwind-preset.js",
         "*.json",
         "*.md"
     ],
     "peerDependencies": {
         "flatpickr": "^4.6",
-        "tailwindcss": "^1.2",
+        "tailwindcss": "^2.2",
         "vue": "^2.6"
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.3.4",
         "insert-text-at-cursor": "^0.3.0",
         "v-money": "^0.8.1",
         "vue-the-mask": "^0.11.1"
     },
     "devDependencies": {
-        "@tailwindcss/custom-forms": "^0.2.1",
-        "@vue/cli-plugin-babel": "~4.4.0",
-        "@vue/cli-plugin-eslint": "~4.4.0",
-        "@vue/cli-service": "~4.4.0",
+        "@vue/cli-plugin-babel": "^4.5.15",
+        "@vue/cli-plugin-eslint": "^4.5.15",
+        "@vue/cli-service": "^4.5.15",
+        "autoprefixer": "^9.8.8",
         "babel-eslint": "^10.1.0",
         "core-js": "^3.6.5",
-        "eslint": "^7.5.0",
-        "eslint-config-airbnb-base": "^14.2.0",
-        "eslint-plugin-import": "^2.22.0",
-        "eslint-plugin-vue": "^6.2.2",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-vue": "^8.1.1",
         "flatpickr": "^4.6.3",
-        "tailwindcss": "^1.7.2",
+        "postcss": "^7.0.39",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11"
     }

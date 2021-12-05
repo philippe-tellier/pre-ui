@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import PreInput from '../components/Input.vue';
+    import PreInput from '../components/PreInput.vue';
 
     export default {
         components: { PreInput },

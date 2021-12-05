@@ -7,7 +7,7 @@
                 colorClasses,
                 'border px-4 py-2 text-sm leading-5 rounded',
                 'transition ease-in-out duration-150',
-                'focus:outline-none focus:shadow-outline'
+                'focus:outline-none focus:ring'
             ]"
             :disabled="disabled"
             :loading="loading"

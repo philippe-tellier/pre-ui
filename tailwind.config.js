@@ -1,15 +1,12 @@
 module.exports = {
+    mode: 'jit',
+    presets: [
+        require('./tailwind-preset.js'),
+    ],
     purge: [
         './src/**/*.vue',
     ],
     theme: {
         extend: {},
-    },
-    variants: {},
-    plugins: [
-        require('@tailwindcss/custom-forms'),
-    ],
-    future: {
-        removeDeprecatedGapUtilities: true,
     },
 };
